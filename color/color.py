@@ -15,6 +15,13 @@ class Color:
         sat *= 100
         return [hue, lum, sat]
 
+    def to_array(self):
+        return [self.r, self.g, self.b]
+
+    @staticmethod
+    def from_bgr_values(bgr_array):
+        return Color(bgr_array[2], bgr_array[1], bgr_array[0])
+
     @staticmethod
     def from_bgr(color_value):
         hex_value = format(color_value, 'x')

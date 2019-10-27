@@ -1,31 +1,15 @@
-# TCTS2Info = record
-# H, S, L: extended;
-# hueMod, satMod: extended;
-# Tol: Integer;
-# end;
-
-# Result := AllocMem(SizeOf(TCTS2Info));
-# ColorToRGB(Color, R, G, B);
-# RGBToHSL(R, G, B, PCTS2Info(Result)^.H, PCTS2Info(Result)^.S,
-#                                                            PCTS2Info(Result)^.L);
-# PCTS2Info(Result)^.hueMod := Tol * hueMod;
-# PCTS2Info(Result)^.satMod := Tol * satMod;
-# PCTS2Info(Result)^.Tol := Tol;
-
-# function Create_CTSInfo_helper(cts: integer; Color, Tol: Integer;
-# hueMod, satMod, CTS3Modifier: extended): Pointer; overload;
-
-import colorsys
-
-
 class Finder:
+
+    @staticmethod
+    def color_same_cts2_slow(color_tolerance_setting, color):
+        return Finder.color_same_cts2(color_tolerance_setting, [color.b, color.g, color.r])
 
     @staticmethod
     def color_same_cts2(color_tolerance_setting, color):
         cts = color_tolerance_setting
-        r = color.r / 255
-        g = color.g / 255
-        b = color.b / 255
+        r = color[2] / 255.0
+        g = color[1] / 255.0
+        b = color[0] / 255.0
 
         c_min = min(r, g, b)
         c_max = max(r, g, b)
@@ -35,6 +19,7 @@ class Finder:
             return False
         if c_min == c_max:
             if cts.sat <= cts.sat_mod:
+                print('aaa', cts.sat, cts.sat_mod)
                 return True
             else:
                 return False
@@ -51,14 +36,15 @@ class Finder:
             hue = (g - b) / d
         else:
             if g == c_max:
-                hue = 2 * (b - r) / d
+                hue = 2.0 + (b - r) / d
             else:
                 hue = 4 + (r - g) / d
-        hue = hue / 6;
+        hue = hue / 6.0
         if hue < 0:
             hue = hue + 1
 
+        hue *= 100;
         if hue > cts.hue:
             return min(hue - cts.hue, abs(hue - (cts.hue + 100))) <= cts.hue_mod
         else:
-            return min(cts.hue - hue, abs(cts.hue - (hue + 100))) <= cts.hue
+            return min(cts.hue - hue, abs(cts.hue - (hue + 100))) <= cts.hue_mod
