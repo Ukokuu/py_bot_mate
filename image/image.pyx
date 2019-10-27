@@ -11,7 +11,6 @@ cpdef unsigned char[:, :, :] mark_pixels_with_color(unsigned char [:, :, :] imag
         image[coord[1], coord[0], 0] = color[0]
         image[coord[1], coord[0], 1] = color[1]
         image[coord[1], coord[0], 2] = color[2]
-
     return image
 
 

@@ -6,7 +6,6 @@ pyximport.install()
 from py_bot_mate.image.image import find_pixels_with_color_tolerance
 from py_bot_mate.image.image import mark_pixels_with_color
 from py_bot_mate.color.color import Color
-from py_bot_mate.color.finder_c import color_same_cts2
 from py_bot_mate.color.color_tolerance_setting import ColorToleranceSetting
 import cv2
 import time
