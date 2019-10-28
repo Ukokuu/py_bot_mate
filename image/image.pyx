@@ -46,7 +46,6 @@ cpdef list find_cluster_with_color_tolerance(unsigned char [:, :, :] image, cts,
     clusters = []
     for x in range(0, n_clusters - 1):
             indexs = np.array(np.where(labels == x)).flatten()
-            print(min_pixels)
             if indexs.size < min_pixels:
                 continue
             else:
